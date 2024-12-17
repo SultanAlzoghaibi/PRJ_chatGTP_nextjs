@@ -25,15 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
+    <html lang="en" >
+      <body 
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <header className='text-white p-6 text-center'> Welcome to my chatGTP clone (not a copying off youtube)
             <Navigation />
            </header>
         
-        {children}
+        {children }
 
         <footer className='text-white p-6 text-center'> Made by Sultan, You better not fork my site... 👀 </footer>
 

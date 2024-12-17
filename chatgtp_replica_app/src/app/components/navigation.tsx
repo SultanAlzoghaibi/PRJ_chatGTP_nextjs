@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const Navigation = () => {
   return (
-    <nav className="flex flex-row justify-between items-center bg-[#0a0e1a] p-4">
+    <nav className="flex flex-row justify-between items-center bg-[#111111] p-4">
       {/* Left Section */}
       <div className="flex gap-4">
         <Link
