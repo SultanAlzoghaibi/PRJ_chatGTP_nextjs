@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { ChatDisplay } from './ChatDisplay';
 
 export const PromptInput = () => {
   const [message, setMessage] = useState('');
 
   const sendMessage = () => {
     if (message.trim()) {
+
+
       console.log('Sending message:', message);
       setMessage('');
     }
@@ -14,7 +17,11 @@ export const PromptInput = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      const message = e.currentTarget.value; // Acce
+      console.log('Sending 111:', message);
+      ChatDisplay.display(message);
       sendMessage();
+
     }
   };
 
