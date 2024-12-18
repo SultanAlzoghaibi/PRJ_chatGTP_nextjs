@@ -2,51 +2,77 @@
 
 import { useState, useEffect } from 'react';
 
+
 export const ChatDisplay = ({ message }: { message: string }) => {
+  const [chatmessage, setChatmessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
 
+  
+  const [response, setResponse] = useState<string[]>([]);
 
-  function display(message: string) {
-    console.log("THE MESSAGE IS", message);
-    // Add the message to the messages array
-    setMessages((prevMessages) => [...prevMessages, message]);
-
-    // Create a new div element
-    const divElement = document.createElement("div");
-
-    // Create a new p element and set its text content
-    const pElement = document.createElement("p");
-    pElement.textContent = message;
-
-    // Append the p element to the div
-    divElement.appendChild(pElement);
-
-    // Append the div element to the document body (or any other container)
-    document.body.appendChild(divElement);
+  // Event handler for updating chatmessage (user input)
+  function updateResponse(event: React.ChangeEvent<HTMLInputElement>) {
+    setChatmessage(event.target.value);
+    setResponse([...response, chatmessage]);
   }
 
+  // Event handler for sending message (both Enter key and Send button)
+  function handleSendMessage() {
+    if (chatmessage.trim() === "") return; // Don't send empty messages
+
+    // Add the new message to the messages array
+    setMessages([...messages, chatmessage]);
+    setResponse([...response, chatmessage]);
+    setChatmessage(''); // Clear the input after sending
+  }
+
+  // Handle Enter key press event
+  function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      handleSendMessage(); // Trigger sending message on Enter key press
+    }
+  }
 
   useEffect(() => {
-    display(message);
+    if (message) {
+      // Add incoming message to chat history when message changes
+      setMessages((prevMessages) => [...prevMessages, message]);
+    }
   }, [message]);
 
   return (
-    console.log("THE MESSAGES ARE"),
-    console.log(messages),
-    console.log(messages),
-    console.log(messages),
-    // Create a div element
-    <div className="flex flex-col gap-4 p-4 bg-gray-900 min-h-screen">
-      {messages.map((msg, index) => (
-        <div
-          key={index}
-          className={`p-3 rounded max-w-md ${
-            index % 2 === 0 ? 'bg-gray-800 text-white self-start' : 'bg-blue-700 text-white self-end'
-          }`}
+    <div className="flex flex-col gap-2 overflow-y-auto">
+      <div className="flex flex-col gap-2">
+        <p className="text-gray-300 text-sm">
+          You can chat with it using the input box below.
+        </p>
+        
+        <input
+          type="text"
+          className="bg-gray-700 text-white focus:outline-none"
+          placeholder="Type your message..."
+          value={chatmessage}
+          onChange={updateResponse}
+          onKeyDown={handleKeyPress} // Detect Enter key press
+        />
+        <button
+          onClick={handleSendMessage}
+          className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-700 transition"
         >
-          {msg}
-        </div>
-      ))}
+          Send
+        </button>
+      </div>
+
+      {/* Display chat messages */}
+      <div className="flex-grow overflow-y-auto mt-4">
+        {messages.map((msg, index) => (
+          <p key={index} className="text-white text-sm mb-2">
+            {msg}
+          </p>
+        ))}
+
+     
+      </div>
     </div>
   );
 };

@@ -19,7 +19,9 @@ export const PromptInput = () => {
     if (e.key === 'Enter') {
       const message = e.currentTarget.value; // Acce
       console.log('Sending 111:', message);
-      ChatDisplay.display(message);
+      
+
+      
       sendMessage();
 
     }
